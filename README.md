@@ -23,6 +23,7 @@ No purpose. No deadlines. Just vibes.
 | `click_tracker/` | Tracks your mouse clicks because... why not? |
 | `slot_machine/` | One-armed bandit casino game. Feeling lucky? |
 | `snake_game/` | Classic snake game. Eat, grow, don't crash! |
+| `horror_tetris/` | Tetris with 90s horror/slasher trivia. What's your favourite scary movie? |
 
 ---
 
