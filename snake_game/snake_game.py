@@ -8,24 +8,25 @@ import random
 import time
 import os
 import msvcrt
-import threading
 
 # Game settings
 WIDTH = 40
 HEIGHT = 20
-INITIAL_SPEED = 0.15
+INITIAL_SPEED = 0.12
 
 
 class Snake:
     def __init__(self):
         self.body = [(HEIGHT // 2, WIDTH // 2)]
         self.direction = (0, 1)  # Start moving right
+        self.next_direction = (0, 1)
         self.grow = False
 
     def head(self):
         return self.body[0]
 
     def move(self):
+        self.direction = self.next_direction
         head_y, head_x = self.head()
         dy, dx = self.direction
         new_head = (head_y + dy, head_x + dx)
@@ -41,7 +42,7 @@ class Snake:
         dy, dx = direction
         curr_dy, curr_dx = self.direction
         if (dy + curr_dy, dx + curr_dx) != (0, 0):
-            self.direction = direction
+            self.next_direction = direction
 
     def check_collision(self):
         head = self.head()
@@ -64,8 +65,6 @@ class Game:
         self.game_over = False
         self.speed = INITIAL_SPEED
         self.spawn_food()
-        self.last_key = None
-        self.running = True
 
     def spawn_food(self):
         while True:
@@ -81,98 +80,83 @@ class Game:
     def draw(self):
         self.clear_screen()
 
-        print("╔" + "═" * (WIDTH - 2) + "╗")
-        print("║" + "        SNAKE GAME        ".center(WIDTH - 2) + "║")
-        print("╠" + "═" * (WIDTH - 2) + "╣")
+        print("+" + "-" * (WIDTH - 2) + "+")
+        print("|" + "  SNAKE GAME  ".center(WIDTH - 2) + "|")
+        print("+" + "-" * (WIDTH - 2) + "+")
 
         for y in range(HEIGHT):
             row = ""
             for x in range(WIDTH):
                 if y == 0 or y == HEIGHT - 1:
-                    row += "═"
+                    row += "-"
                 elif x == 0 or x == WIDTH - 1:
-                    row += "║"
+                    row += "|"
                 elif (y, x) == self.snake.head():
-                    row += "O"
+                    row += "@"
                 elif (y, x) in self.snake.body:
                     row += "o"
                 elif (y, x) == self.food:
                     row += "*"
                 else:
                     row += " "
-            if y == 0:
-                print("╠" + row[1:-1] + "╣")
-            elif y == HEIGHT - 1:
-                print("╠" + row[1:-1] + "╣")
+            if y == 0 or y == HEIGHT - 1:
+                print("+" + row[1:-1] + "+")
             else:
                 print(row)
 
-        print("╠" + "═" * (WIDTH - 2) + "╣")
-        print(f"║  SCORE: {self.score:<8}  SPEED: {10 - int(self.speed * 50):<8}    ║")
-        print("╚" + "═" * (WIDTH - 2) + "╝")
-        print("\n  [WASD / Arrows] Move   [Q] Quit")
+        print("+" + "-" * (WIDTH - 2) + "+")
+        print(f"| SCORE: {self.score:<27} |")
+        print("+" + "-" * (WIDTH - 2) + "+")
+        print(" [WASD] Move  [Q] Quit")
 
     def draw_game_over(self):
         self.clear_screen()
         print(r"""
-    ╔═══════════════════════════════════════╗
-    ║                                       ║
-    ║      ___   __   __ __  ___           ║
-    ║     / _ \ / /  |  V  || __|          ║
-    ║    | (_| || /\ | \_/ || _|           ║
-    ║     \__  ||__| |_| |_||___|          ║
-    ║        |_|                           ║
-    ║      __   _  _ ___  ___              ║
-    ║     /__\ | || | __|| _ \             ║
-    ║    | \/ || \/ | _| |   /             ║
-    ║     \__/  \__/|___||_\_\             ║
-    ║                                       ║
-    ╠═══════════════════════════════════════╣""")
-        print(f"    ║         FINAL SCORE: {self.score:<5}           ║")
-        print(r"""    ╠═══════════════════════════════════════╣
-    ║                                       ║
-    ║    [ENTER] Play Again    [Q] Quit     ║
-    ║                                       ║
-    ╚═══════════════════════════════════════╝
+    +---------------------------------------+
+    |                                       |
+    |            GAME  OVER                 |
+    |                                       |
+    +---------------------------------------+""")
+        print(f"    |         FINAL SCORE: {self.score:<5}           |")
+        print(r"""    +---------------------------------------+
+    |                                       |
+    |    [ENTER] Play Again    [Q] Quit     |
+    |                                       |
+    +---------------------------------------+
     """)
 
-    def input_thread(self):
-        while self.running:
-            if msvcrt.kbhit():
-                key = msvcrt.getch()
-                # Handle arrow keys (they come as two bytes)
-                if key == b'\xe0':
-                    key = msvcrt.getch()
-                    if key == b'H':
-                        self.last_key = 'w'
-                    elif key == b'P':
-                        self.last_key = 's'
-                    elif key == b'K':
-                        self.last_key = 'a'
-                    elif key == b'M':
-                        self.last_key = 'd'
-                else:
-                    try:
-                        self.last_key = key.decode().lower()
-                    except:
-                        pass
-            time.sleep(0.01)
-
     def process_input(self):
-        if self.last_key == 'w':
-            self.snake.set_direction((-1, 0))
-        elif self.last_key == 's':
-            self.snake.set_direction((1, 0))
-        elif self.last_key == 'a':
-            self.snake.set_direction((0, -1))
-        elif self.last_key == 'd':
-            self.snake.set_direction((0, 1))
-        elif self.last_key == 'q':
-            self.game_over = True
-            self.running = False
+        while msvcrt.kbhit():
+            key = msvcrt.getch()
+            if key == b'\xe0':
+                key = msvcrt.getch()
+                if key == b'H':
+                    self.snake.set_direction((-1, 0))
+                elif key == b'P':
+                    self.snake.set_direction((1, 0))
+                elif key == b'K':
+                    self.snake.set_direction((0, -1))
+                elif key == b'M':
+                    self.snake.set_direction((0, 1))
+            else:
+                try:
+                    k = key.decode().lower()
+                    if k == 'w':
+                        self.snake.set_direction((-1, 0))
+                    elif k == 's':
+                        self.snake.set_direction((1, 0))
+                    elif k == 'a':
+                        self.snake.set_direction((0, -1))
+                    elif k == 'd':
+                        self.snake.set_direction((0, 1))
+                    elif k == 'q':
+                        self.game_over = True
+                        return False
+                except:
+                    pass
+        return True
 
     def update(self):
-        self.process_input()
         self.snake.move()
 
         if self.snake.check_collision():
@@ -183,17 +167,26 @@ class Game:
             self.snake.grow = True
             self.score += 10
             self.spawn_food()
-            # Speed up slightly
             self.speed = max(0.05, self.speed - 0.005)
 
     def run(self):
-        input_thread = threading.Thread(target=self.input_thread, daemon=True)
-        input_thread.start()
+        # Flush any pending input
+        while msvcrt.kbhit():
+            msvcrt.getch()
+
+        last_move = time.time()
 
         while not self.game_over:
             self.draw()
+
+            # Fast input polling loop
+            while time.time() - last_move < self.speed:
+                if not self.process_input():
+                    return False
+                time.sleep(0.01)
+
+            last_move = time.time()
             self.update()
-            time.sleep(self.speed)
 
         self.draw_game_over()
 
@@ -204,13 +197,13 @@ class Game:
                 try:
                     k = key.decode().lower()
                     if k == 'q':
-                        self.running = False
                         return False
-                    elif k == '\r':  # Enter key
+                    elif k == '\r':
                         return True
                 except:
                     if key == b'\r':
                         return True
+            time.sleep(0.01)
 
 
 def main():
