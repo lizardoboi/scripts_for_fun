@@ -24,6 +24,7 @@ No purpose. No deadlines. Just vibes.
 | `slot_machine/` | One-armed bandit casino game. Feeling lucky? |
 | `snake_game/` | Classic snake game. Eat, grow, don't crash! |
 | `horror_tetris/` | Tetris with 90s horror/slasher trivia. What's your favourite scary movie? |
+| `fishing_screensaver/` | Peaceful ASCII fishing animation. Relax and watch the fish. |
 
 ---
 
