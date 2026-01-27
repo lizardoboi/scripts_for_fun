@@ -25,6 +25,7 @@ No purpose. No deadlines. Just vibes.
 | `snake_game/` | Classic snake game. Eat, grow, don't crash! |
 | `horror_tetris/` | Tetris with 90s horror/slasher trivia. What's your favourite scary movie? |
 | `fishing_screensaver/` | Peaceful ASCII fishing animation. Relax and watch the fish. |
+| `cool_skeleton/` | Detailed skeleton smoking a cigar. Too cool for flesh. |
 
 ---
 
