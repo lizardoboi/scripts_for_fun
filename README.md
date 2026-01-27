@@ -21,6 +21,7 @@ No purpose. No deadlines. Just vibes.
 | Folder | Description |
 |--------|-------------|
 | `click_tracker/` | Tracks your mouse clicks because... why not? |
+| `slot_machine/` | One-armed bandit casino game. Feeling lucky? |
 
 ---
 
