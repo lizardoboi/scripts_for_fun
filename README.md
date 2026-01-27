@@ -22,6 +22,7 @@ No purpose. No deadlines. Just vibes.
 |--------|-------------|
 | `click_tracker/` | Tracks your mouse clicks because... why not? |
 | `slot_machine/` | One-armed bandit casino game. Feeling lucky? |
+| `snake_game/` | Classic snake game. Eat, grow, don't crash! |
 
 ---
 
