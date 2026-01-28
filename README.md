@@ -27,6 +27,7 @@ No purpose. No deadlines. Just vibes.
 | `fishing_screensaver/` | Peaceful ASCII fishing animation. Relax and watch the fish. |
 | `cool_skeleton/` | Detailed skeleton smoking a cigar. Too cool for flesh. |
 | `sema_loh/` | Animated dancing guy endlessly roasting Sema. With farts. |
+| `hacker_simulator/` | Fake hacker terminal. Matrix rain, port scans, hack the Pentagon. Not real. |
 
 ---
 
