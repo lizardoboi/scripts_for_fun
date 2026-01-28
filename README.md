@@ -28,6 +28,7 @@ No purpose. No deadlines. Just vibes.
 | `cool_skeleton/` | Detailed skeleton smoking a cigar. Too cool for flesh. |
 | `sema_loh/` | Animated dancing guy endlessly roasting Sema. With farts. |
 | `hacker_simulator/` | Fake hacker terminal. Matrix rain, port scans, hack the Pentagon. Not real. |
+| `russian_roulette/` | 6 chambers. 1 bullet. ASCII revolver. How lucky are you? |
 
 ---
 
