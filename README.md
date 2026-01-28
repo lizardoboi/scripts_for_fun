@@ -26,6 +26,7 @@ No purpose. No deadlines. Just vibes.
 | `horror_tetris/` | Tetris with 90s horror/slasher trivia. What's your favourite scary movie? |
 | `fishing_screensaver/` | Peaceful ASCII fishing animation. Relax and watch the fish. |
 | `cool_skeleton/` | Detailed skeleton smoking a cigar. Too cool for flesh. |
+| `sema_loh/` | Animated dancing guy endlessly roasting Sema. With farts. |
 
 ---
 
